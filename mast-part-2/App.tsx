@@ -12,11 +12,10 @@ import{
 import{NavigationContainer} from "@react-navigation/native";
 import{createNativeStackNavigator} from "@react-navigation/native-stack";
 
-
-
 //npm install npm install @react-navigation/native-stack @react-navigation/native-stack
 //npx expo install react-native-screens react-native-safe-area-context
 
+//Inferface defining the structure of a meal item.
 interface MealItem{
   id: number;
   name: string;
@@ -25,13 +24,17 @@ interface MealItem{
   calories: string;
 }
 
+// Create a stack navigator for navigation between screens.
 const Stack = createNativeStackNavigator();
- 
+
+// HomeScreen component - Displays the menu, total orders, and added meals.
 function HomeScreen({ navigation, route }: any) {
+   // Animation value for fade-in effect.
   const[fadeAnim] = useState(new Animated.Value(0));
+    // State to store the list of meals.
   const [meals, setMeals] = useState<MealItem[]>([]);
 
-
+ // Effect hook to handle new meal addition and fade-in animation.
   React.useEffect(() => {
     if(route.params?.newMeal) {
       setMeals((prev) => [...prev, route.params.newMeal]);
@@ -98,25 +101,27 @@ color="#4c00b0"
   </View>
 );
 }
-
+// AddMealScreen component - Allows the user to add new meals.
 function AddMealScreen({navigation}: any){
+  // States for the meal details.
   const [mealName, setMealName] = useState ("");
    const [mealName2, setMealName2] = useState ("");
    const [description, setDescription] = useState ("");
     const [category, setCategory] = useState ("");
      const [calories, setCalories] = useState ("");
+      // Predefined category options.
       const categoryOptions =  [
         "Starters", 
         "Mains" , 
         "Dessert"
       ];
-
+      // Function to handle the saving of a new meal.
       const handleAdd = () => {
         if (!mealName || !description || !calories){
           alert("Please fill in all fields");
           return;
         }
-
+        // Create a new meal object and navigate back to Home with the new meal.
         const newMeal: MealItem = {
           id: Date.now(),
           name: mealName,
@@ -194,6 +199,7 @@ function AddMealScreen({navigation}: any){
       );
 }
 
+// Main App component - Contains the navigation setup.
 export default function App() {
   return(
     <NavigationContainer>
@@ -214,6 +220,7 @@ export default function App() {
   );
 }
 
+// Styling for the app components
 const styles = StyleSheet.create ({
   Button: {
     backgroundColor: "#4CAF50", 
